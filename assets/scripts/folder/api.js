@@ -49,10 +49,21 @@ const createWord = function (data) {
   })
 }
 
+const getWords = function () {
+  return $.ajax({
+    method: 'GET',
+    url: config.apiUrl + '/words',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
   signOut,
   changePassword,
-  createWord
+  createWord,
+  getWords
 }

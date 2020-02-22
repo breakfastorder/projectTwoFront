@@ -10,10 +10,14 @@ $(() => {
   $('#change-password').hide()
   $('#sign-out').hide()
   $('#create-word').hide()
+  $('#get-words').hide()
+
   $('#sign-up').on('submit', events.onSignUp)
   $('#sign-in').on('submit', events.onSignIn)
   $('#change-password').on('submit', events.onChangePassword)
   $('#sign-out').on('submit', events.onSignOut)
 
   $('#create-word').on('submit', events.onCreateWord)
+  $('#print-words').on('submit', events.onPrintWords)
+  $('#delete-word').on('submit', events.onDeleteWords)
 })

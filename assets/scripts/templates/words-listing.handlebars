@@ -1,0 +1,18 @@
+{{#each words as |word|}}
+  {{log word}}
+  <section word-id="{{word.id}}">
+    <h6>Word:</h6>
+    <h3>
+      {{limit word.text 15}}
+    </h3>
+    <h6>Difficulty:</h6>
+    <p>
+      {{#if word.difficulty}}
+        {{word.difficulty}}
+      {{else}}
+        No difficulty provided.
+      {{/if}}
+    </p>
+  </section>
+
+{{/each}}

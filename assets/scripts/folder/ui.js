@@ -1,5 +1,5 @@
 const store = require('./../store')
-
+const showWords = require('./../templates/words-listing.handlebars')
 const onSignUpSuccess = function (data) {
   $('#sign-up').trigger('reset')
   $('#sign-in').trigger('reset')
@@ -18,9 +18,11 @@ const onSignInSuccess = function (data) {
   $('#sign-in').hide()
   $('#sign-up').hide()
 
+
   $('#change-password').show()
   $('#sign-out').show()
   $('#create-word').show()
+  $('#get-words').show()
 
   $('#auth-message').html(data.user.email + ' signed in successfully')
 }
@@ -41,6 +43,7 @@ const onSignOutSuccess = function (data) {
   $('#change-password').hide()
   $('#sign-out').hide()
   $('#create-word').hide()
+  $('#get-words').hide()
 }
 
 const onSignOutFailure = function (data) {
@@ -64,6 +67,24 @@ const onCreateWordFailure = function (data) {
   $('#auth-message').html('Word was not created, please try again')
 }
 
+const onGetPrintSuccess = function (data) {
+  const printWords = showWords({words: data.words})
+  $('#content').html(printWords)
+  store.wordsList = data.words
+}
+
+const onGetPrintFailure = function (data) {
+
+}
+
+const onGetWordsSuccess = function (data) {
+  store.wordsList = data.words
+}
+
+const onGetWordsFailure = function (data) {
+
+}
+
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
@@ -74,5 +95,9 @@ module.exports = {
   onChangePasswordSuccess,
   onChangePasswordFailure,
   onCreateWordSuccess,
-  onCreateWordFailure
+  onCreateWordFailure,
+  onGetPrintSuccess,
+  onGetPrintFailure,
+  onGetWordsSuccess,
+  onGetWordsFailure
 }

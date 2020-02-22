@@ -1,1 +1,10 @@
 @import '~bootstrap/scss/bootstrap';
+
+#print-words {
+  flex-wrap: wrap;
+}
+
+#word-id {
+  padding: 0px;
+  margin: -1px;
+}
