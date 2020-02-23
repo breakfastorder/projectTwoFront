@@ -11,6 +11,8 @@ $(() => {
   $('#sign-out').hide()
   $('#create-word').hide()
   $('#get-words').hide()
+  $('#delete-word').hide()
+  $('#print-words').hide()
 
   $('#sign-up').on('submit', events.onSignUp)
   $('#sign-in').on('submit', events.onSignIn)
@@ -20,4 +22,6 @@ $(() => {
   $('#create-word').on('submit', events.onCreateWord)
   $('#print-words').on('submit', events.onPrintWords)
   $('#delete-word').on('submit', events.onDeleteWords)
+  $('#update-word').on('submit', events.onUpdateWord)
+  $('#print-storeList').on('submit', events.printStoreList)
 })

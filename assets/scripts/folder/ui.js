@@ -1,5 +1,6 @@
 const store = require('./../store')
 const showWords = require('./../templates/words-listing.handlebars')
+
 const onSignUpSuccess = function (data) {
   $('#sign-up').trigger('reset')
   $('#sign-in').trigger('reset')
@@ -23,6 +24,8 @@ const onSignInSuccess = function (data) {
   $('#sign-out').show()
   $('#create-word').show()
   $('#get-words').show()
+  $('#delete-word').show()
+  $('#print-words').show()
 
   $('#auth-message').html(data.user.email + ' signed in successfully')
 }
@@ -44,6 +47,8 @@ const onSignOutSuccess = function (data) {
   $('#sign-out').hide()
   $('#create-word').hide()
   $('#get-words').hide()
+  $('#delete-word').hide()
+  $('#print-words').hide()
 }
 
 const onSignOutFailure = function (data) {
@@ -74,7 +79,7 @@ const onGetPrintSuccess = function (data) {
 }
 
 const onGetPrintFailure = function (data) {
-
+  $('#auth-message').html('Word cannot be printed, please try again')
 }
 
 const onGetWordsSuccess = function (data) {
@@ -82,7 +87,23 @@ const onGetWordsSuccess = function (data) {
 }
 
 const onGetWordsFailure = function (data) {
+  $('#auth-message').html('Cannot get words, please try again')
+}
 
+const onDeleteWordsSuccess = function (data) {
+  $('#auth-message').html('Deleted word')
+}
+
+const onDeleteWordsFailure = function (data) {
+  $('#auth-message').html('Cannot delete words, please try again')
+}
+
+const onUpdateWordSuccess = function (data) {
+  $('#auth-message').html('updated word')
+}
+
+const onUpdateWordFailure = function (data) {
+  $('#auth-message').html('cannot update word, please try again')
 }
 
 module.exports = {
@@ -99,5 +120,9 @@ module.exports = {
   onGetPrintSuccess,
   onGetPrintFailure,
   onGetWordsSuccess,
-  onGetWordsFailure
+  onGetWordsFailure,
+  onDeleteWordsSuccess,
+  onDeleteWordsFailure,
+  onUpdateWordSuccess,
+  onUpdateWordFailure
 }

@@ -69,16 +69,41 @@ const onPrintWords = function () {
 
 const onDeleteWords = function (data) {
   event.preventDefault()
-  onGetWords()
-  let a = null
-  if (store.wordsList) {
-    a = store.wordsList.find(word => word.includes(data))
-  }
-  console.log(a)
+  api.getWords()
+    .then(function (response) {
+      const a = response.words.find(word => word.text.includes(data)).id
+      api.deleteWords(a)
+        .then(ui.onDeleteWordsSuccess)
+        .catch(ui.onDeleteWordsFailure)
+    })
+    .catch($('#auth-message').html('Word cannot be found, please try again'))
+}
 
-  // api.deleteWords(a)
-  //   .then(ui.onDeleteWordsSuccess)
-  //   .catch(ui.onDeleteWordsFailure)
+const onUpdateWord = function (data) {
+  event.preventDefault()
+  const form = event.target
+  const formData = getFormFields(form)
+  api.getWords()
+    .then(function (response) {
+      const index = response.words.find(word => word.text.includes(formData.oldText)).id
+      console.log(index)
+      const word = {
+        'word': {
+          'text': formData.text,
+          'times_used': 0,
+          'difficulty': formData.difficulty
+        }
+      }
+      api.updateWord(word, index)
+        .then(ui.onUpdateWordSuccess)
+        .catch(ui.onUpdateWordFailure)
+    })
+    .catch($('#auth-message').html('Word cannot be found, please try again'))
+}
+
+const printStoreList = function () {
+  event.preventDefault()
+  console.log(store.wordsList)
 }
 
 module.exports = {
@@ -89,5 +114,7 @@ module.exports = {
   onCreateWord,
   onGetWords,
   onDeleteWords,
-  onPrintWords
+  onPrintWords,
+  onUpdateWord,
+  printStoreList
 }

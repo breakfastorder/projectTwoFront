@@ -59,11 +59,34 @@ const getWords = function () {
   })
 }
 
+const deleteWords = function (id) {
+  return $.ajax({
+    method: 'DELETE',
+    url: config.apiUrl + '/words/' + id,
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const updateWord = function (data, id) {
+  return $.ajax({
+    method: 'PATCH',
+    url: config.apiUrl + '/words/' + id,
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
   signOut,
   changePassword,
   createWord,
-  getWords
+  getWords,
+  deleteWords,
+  updateWord
 }
