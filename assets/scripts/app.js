@@ -24,4 +24,7 @@ $(() => {
   $('#delete-word').on('submit', events.onDeleteWords)
   $('#update-word').on('submit', events.onUpdateWord)
   $('#print-storeList').on('submit', events.printStoreList)
+
+  $('#start-game').on('submit', events.onStartGame)
+  $('#guess-form').on('submit', events.checkGuess)
 })

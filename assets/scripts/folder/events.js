@@ -41,6 +41,8 @@ const onCreateWord = function (event) {
   event.preventDefault()
   const form = event.target
   const data = getFormFields(form)
+  console.log(data)
+  data.text = data.text.toLowerCase()
   const word = {
     'word': {
       'text': data.text,
@@ -69,9 +71,12 @@ const onPrintWords = function () {
 
 const onDeleteWords = function (data) {
   event.preventDefault()
+  event.preventDefault()
+  const form = event.target
+  const formData = getFormFields(form)
   api.getWords()
     .then(function (response) {
-      const a = response.words.find(word => word.text.includes(data)).id
+      const a = response.words.find(word => word.text.includes(formData.text)).id
       api.deleteWords(a)
         .then(ui.onDeleteWordsSuccess)
         .catch(ui.onDeleteWordsFailure)
@@ -87,6 +92,7 @@ const onUpdateWord = function (data) {
     .then(function (response) {
       const index = response.words.find(word => word.text.includes(formData.oldText)).id
       console.log(index)
+      formData.text = formData.text.toLowerCase()
       const word = {
         'word': {
           'text': formData.text,
@@ -99,6 +105,45 @@ const onUpdateWord = function (data) {
         .catch(ui.onUpdateWordFailure)
     })
     .catch($('#auth-message').html('Word cannot be found, please try again'))
+}
+
+const onStartGame = function () {
+  event.preventDefault()
+  api.getWords()
+    .then(ui.onStartGameSuccess)
+    .catch(ui.onGetWordsFailure)
+}
+
+const checkGuess = function (data) {
+  event.preventDefault()
+  const form = event.target
+  const formData = getFormFields(form)
+  if (formData.length > 1) {
+    console.log('please input a single letter')
+  } else {
+    formData.guess = formData.guess.toLowerCase()
+    if (store.gameWordArray.includes(formData.guess) === false) {
+      store.incorrectGuessArray.push(formData.guess)
+      // add relevant strike
+    } else {
+      for (let i = 0; i < store.realUnderScoreArray.length; i++) {
+        if (store.realUnderScoreArray[i] === formData.guess) {
+          store.underScoreArray[i] = formData.guess
+
+        }
+        console.log(store.underScoreArray)
+      }
+      store.correctGuessArray = store.gameWordArray.filter(word => word === formData.guess)
+      store.gameWordArray = store.gameWordArray.filter(word => word !== formData.guess)
+    }
+    console.log('word array')
+    console.log(store.gameWordArray)
+    console.log('correct array')
+    console.log(store.correctGuessArray)
+    console.log('incorrect array')
+    console.log(store.incorrectGuessArray)
+    $('#letter-board').html(store.underScoreArray)
+  }
 }
 
 const printStoreList = function () {
@@ -116,5 +161,7 @@ module.exports = {
   onDeleteWords,
   onPrintWords,
   onUpdateWord,
-  printStoreList
+  onStartGame,
+  printStoreList,
+  checkGuess
 }

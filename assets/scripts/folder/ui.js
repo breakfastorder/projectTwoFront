@@ -83,6 +83,7 @@ const onGetPrintFailure = function (data) {
 }
 
 const onGetWordsSuccess = function (data) {
+  console.log('running after api call')
   store.wordsList = data.words
 }
 
@@ -106,6 +107,43 @@ const onUpdateWordFailure = function (data) {
   $('#auth-message').html('cannot update word, please try again')
 }
 
+const onStartGameSuccess = function (data) {
+  // console.log(data)
+  store.wordsList = data.words
+  // console.log(store.wordsList)
+  let num = Math.random() * (store.wordsList.length - 1)
+  num = Math.floor(num)
+  // console.log(num)
+  store.randGameWord = data.words[num].text
+  console.log(store.randGameWord)
+  store.gameWordArray = []
+  let underScoreLetterString = ''
+  let realLetterString = ''
+  for (let i = 0; i < store.randGameWord.length; i++) {
+    if (store.randGameWord.charAt(i) !== ' ') {
+      underScoreLetterString = underScoreLetterString + ' _ '
+      realLetterString = realLetterString + ' ' + store.randGameWord.charAt(i) + ' '
+
+      store.gameWordArray.push(store.randGameWord.charAt(i))
+      // console.log(underScoreLetterString + ' ' + ' letter')
+    } else {
+      underScoreLetterString = underScoreLetterString + '-'
+      realLetterString = realLetterString + '-'
+       // console.log(underScoreLetterString + ' ' + ' space')
+    }
+  }
+  store.correctGuessArray = []
+  store.incorrectGuessArray = []
+
+  store.underScoreArray = underScoreLetterString.split('')
+  store.realUnderScoreArray = realLetterString.split('')
+  $('#letter-board').html(store.underScoreArray)
+}
+
+const onStartGameFailure = function (data) {
+
+}
+
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
@@ -124,5 +162,7 @@ module.exports = {
   onDeleteWordsSuccess,
   onDeleteWordsFailure,
   onUpdateWordSuccess,
-  onUpdateWordFailure
+  onUpdateWordFailure,
+  onStartGameSuccess,
+  onStartGameFailure
 }
