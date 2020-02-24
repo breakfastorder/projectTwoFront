@@ -15,6 +15,7 @@
       <h1>AHHHHHHHHHH</h1>
 
       <div id='auth-message'></div>
+      <div id='game-message'></div>
 
       <div id='content'></div>
 
@@ -31,55 +32,64 @@
          <input type='submit' value='Sign in!'>
     </form>
 
-    <form id='change-password'>
-        <input name="passwords[old]" type="password" placeholder="Old password">
-        <input name="passwords[new]" type="password" placeholder="New password">
-        <input type='submit' value='Change Password'>
+<button id='auth-button' type='button'>Menu</button>
+  <div id='auth-menu'>
+      <form id='change-password'>
+          <input name="passwords[old]" type="password" placeholder="Old password">
+          <input name="passwords[new]" type="password" placeholder="New password">
+          <input type='submit' value='Change Password'>
+     </form>
+
+
+     <form id='sign-out'>
+         <input type='submit' value='Sign out!'>
+    </form>
+
+  </div>
+
+
+
+  <form id='start-game'>
+      <input type='submit' value='Start Game'>
+  </form>
+<div id='word-menu'>
+
+    <form id='create-word'>
+        <input name="text" type="string" placeholder="Word">
+        <input name="difficulty" type="string" placeholder="difficulty">
+        <input type='submit' value='Add word!'>
    </form>
 
-   <form id='sign-out'>
-       <input type='submit' value='Sign out!'>
-  </form>
+     <form id='delete-word'>
+         <input name="text" type="string" placeholder="Word">
+         <input type='submit' value='Delete Word!'>
+    </form>
 
-  <form id='create-word'>
-      <input name="text" type="string" placeholder="Word">
-      <input name="difficulty" type="string" placeholder="difficulty">
-      <input type='submit' value='Add word!'>
- </form>
+    <form id='update-word'>
+        <input name="oldText" type="string" placeholder="Old word">
+        <input name="text" type="string" placeholder="New word">
+        <input name="difficulty" type="string" placeholder="difficulty">
+        <input type='submit' value='update Word!'>
+    </form>
 
- <form id='delete-word'>
-     <input name="text" type="string" placeholder="Word">
-     <input type='submit' value='Delete Word!'>
-</form>
+     <form id='print-words'>
+         <input type='submit' value='Print words'>
+    </form>
 
-<form id='update-word'>
-    <input name="oldText" type="string" placeholder="Old word">
-    <input name="text" type="string" placeholder="New word">
-    <input name="difficulty" type="string" placeholder="difficulty">
-    <input type='submit' value='update Word!'>
-</form>
+    <form id='print-storeList'>
+        <input type='submit' value='Print storelist'>
+    </form>
 
- <form id='print-words'>
-     <input type='submit' value='Print words'>
-</form>
 
-<form id='print-storeList'>
-    <input type='submit' value='Print storelist'>
-</form>
 
-<form id='start-game'>
-    <input type='submit' value='Start Game'>
-</form>
+    <div id='letter-board'>
+    </div>
 
-<div id='letter-board'>
+    <form id='guess-form'>
+      <input name='guess' type='string' placeholder='Single letters only'>
+      <input type='submit' value='Guess a letter'>
+    </form>
 </div>
-
-<form id='guess-form'>
-  <input name='guess' type='string' placeholder='Single letters only'>
-  <input type='submit' value='Guess a letter'>
-</form>
-
-
 
     </body>
 </html>

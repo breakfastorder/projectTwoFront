@@ -37,6 +37,16 @@ const onChangePassword = function (event) {
     .catch(ui.onChangePasswordFailure)
 }
 
+const onAuthMenuSwap = function () {
+  event.preventDefault()
+  if (store.authMenuShow) {
+    $('#auth-menu').show()
+  } else {
+    $('#auth-menu').hide()
+  }
+  store.authMenuShow = !store.authMenuShow
+}
+
 const onCreateWord = function (event) {
   event.preventDefault()
   const form = event.target
@@ -109,6 +119,8 @@ const onUpdateWord = function (data) {
 
 const onStartGame = function () {
   event.preventDefault()
+  $('#word-menu').show()
+  store.userWon = 0
   api.getWords()
     .then(ui.onStartGameSuccess)
     .catch(ui.onGetWordsFailure)
@@ -116,33 +128,58 @@ const onStartGame = function () {
 
 const checkGuess = function (data) {
   event.preventDefault()
+  // $('#game-message').html('Only one letter allowed for guessing, please try again')
+
   const form = event.target
   const formData = getFormFields(form)
-  if (formData.length > 1) {
-    console.log('please input a single letter')
-  } else {
-    formData.guess = formData.guess.toLowerCase()
-    if (store.gameWordArray.includes(formData.guess) === false) {
-      store.incorrectGuessArray.push(formData.guess)
-      // add relevant strike
+  // const wordLength = store.gameWordArray.length
+  if (store.gameOver === false) {
+    if (formData.guess.length > 1) {
+      $('#game-message').html('Guess invalid, only a single letter allowed, please try again')
     } else {
-      for (let i = 0; i < store.realUnderScoreArray.length; i++) {
-        if (store.realUnderScoreArray[i] === formData.guess) {
-          store.underScoreArray[i] = formData.guess
-
+      formData.guess = formData.guess.toLowerCase()
+      if (store.gameWordArray.includes(formData.guess) === false && store.incorrectGuessArray.includes(formData.guess) === false && store.correctGuessArray.includes(formData.guess) === false) {
+        store.incorrectGuessArray.push(formData.guess)
+        // add relevant strike
+      } else {
+        if (store.correctGuessArray.includes(formData.guess) === false) {
+          store.correctGuessArray.push(formData.guess)
         }
-        console.log(store.underScoreArray)
+        for (let i = 0; i < store.realUnderScoreArray.length; i++) {
+          if (store.realUnderScoreArray[i] === formData.guess) {
+            store.underScoreArray[i] = formData.guess
+          }
+        }
+
+        store.gameWordArray = store.gameWordArray.filter(word => word !== formData.guess)
       }
-      store.correctGuessArray = store.gameWordArray.filter(word => word === formData.guess)
-      store.gameWordArray = store.gameWordArray.filter(word => word !== formData.guess)
+      console.log('word array')
+      console.log(store.gameWordArray)
+      console.log('correct array')
+      console.log(store.correctGuessArray)
+      console.log('incorrect array')
+      console.log(store.incorrectGuessArray)
+
+      if (store.gameWordArray.length === 0) { // && store.correctGuessArray.length === wordLength
+        store.gameOver = true
+        store.userWon = 1
+      } else if (store.incorrectGuessArray.length === 6) {
+        store.gameOver = true
+        store.userWon = -1
+      }
+      $('#letter-board').html(store.underScoreArray)
+      $('#guess-form').trigger('reset')
     }
-    console.log('word array')
-    console.log(store.gameWordArray)
-    console.log('correct array')
-    console.log(store.correctGuessArray)
-    console.log('incorrect array')
-    console.log(store.incorrectGuessArray)
-    $('#letter-board').html(store.underScoreArray)
+  } else {
+    $('#game-message').html('Game is over, please start another game to play again')
+  }
+
+  if (store.userWon === 1) {
+    $('#game-message').html('YOU WON')
+    store.userWon = 0
+  } else if (store.userWon === -1) {
+    store.userWon = 0
+    $('#game-message').html('YOU LOST')
   }
 }
 
@@ -156,6 +193,7 @@ module.exports = {
   onSignIn,
   onSignOut,
   onChangePassword,
+  onAuthMenuSwap,
   onCreateWord,
   onGetWords,
   onDeleteWords,

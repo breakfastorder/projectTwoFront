@@ -13,6 +13,8 @@ const onSignUpFailure = function (data) {
 
 const onSignInSuccess = function (data) {
   store.user = data.user
+  store.authMenuShow = true
+
   $('#sign-up').trigger('reset')
   $('#sign-in').trigger('reset')
 
@@ -26,6 +28,15 @@ const onSignInSuccess = function (data) {
   $('#get-words').show()
   $('#delete-word').show()
   $('#print-words').show()
+  $('#start-game').show()
+  $('#guess-form').show()
+  $('#print-storeList').show()
+  $('#update-word').show()
+
+  $('#word-menu').hide()
+
+  $('#auth-button').show()
+  $('#auth-menu').hide()
 
   $('#auth-message').html(data.user.email + ' signed in successfully')
 }
@@ -49,6 +60,19 @@ const onSignOutSuccess = function (data) {
   $('#get-words').hide()
   $('#delete-word').hide()
   $('#print-words').hide()
+  $('#start-game').hide()
+  $('#guess-form').hide()
+  $('#print-storeList').hide()
+  $('#update-word').hide()
+
+  $('#auth-menu').hide()
+  $('#word-menu').hide()
+
+
+  $('#auth-button').hide()
+  $('#auth-menu').hide()
+
+  $('#content').html('')
 }
 
 const onSignOutFailure = function (data) {
@@ -110,6 +134,7 @@ const onUpdateWordFailure = function (data) {
 const onStartGameSuccess = function (data) {
   // console.log(data)
   store.wordsList = data.words
+  store.gameOver = false
   // console.log(store.wordsList)
   let num = Math.random() * (store.wordsList.length - 1)
   num = Math.floor(num)

@@ -13,11 +13,19 @@ $(() => {
   $('#get-words').hide()
   $('#delete-word').hide()
   $('#print-words').hide()
+  $('#start-game').hide()
+  $('#guess-form').hide()
+  $('#print-storeList').hide()
+  $('#update-word').hide()
+
+  $('#auth-button').hide()
 
   $('#sign-up').on('submit', events.onSignUp)
   $('#sign-in').on('submit', events.onSignIn)
   $('#change-password').on('submit', events.onChangePassword)
   $('#sign-out').on('submit', events.onSignOut)
+
+  $('#auth-button').on('click', events.onAuthMenuSwap)
 
   $('#create-word').on('submit', events.onCreateWord)
   $('#print-words').on('submit', events.onPrintWords)
