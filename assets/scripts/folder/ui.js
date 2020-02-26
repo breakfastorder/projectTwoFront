@@ -99,11 +99,16 @@ const onCreateWordFailure = function (data) {
 }
 
 const onGetPrintSuccess = function (data) {
-  const printWords = showWords({words: data.words})
-  $('#content').html(printWords)
-  store.wordsList = data.words
-  $('#hide-words').show()
-  $('#print-words').hide()
+  if (data.words) {
+    const printWords = showWords({words: data.words})
+    $('#content').html(printWords)
+    store.wordsList = data.words
+    $('#hide-words').show()
+    $('#print-words').hide()
+  } else {
+    $('#auth-message').html('There are no words to be printed, please make a word and try again')
+  }
+
 }
 
 const onGetPrintFailure = function (data) {
