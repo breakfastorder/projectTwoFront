@@ -7,6 +7,7 @@ const events = require('./folder/events')
 // require('./example')
 
 $(() => {
+  events.addHandlers()
   $('#change-password').hide()
   $('#sign-out').hide()
   $('#create-word').hide()
@@ -17,8 +18,10 @@ $(() => {
   $('#guess-form').hide()
   $('#print-storeList').hide()
   $('#update-word').hide()
-
+  $('#hide-words').hide()
   $('#auth-button').hide()
+
+  $('#incorrect-guesses').hide()
 
   $('#sign-up').on('submit', events.onSignUp)
   $('#sign-in').on('submit', events.onSignIn)
@@ -29,6 +32,7 @@ $(() => {
 
   $('#create-word').on('submit', events.onCreateWord)
   $('#print-words').on('submit', events.onPrintWords)
+  $('#hide-words').on('submit', events.onDeletePrintWords)
   $('#delete-word').on('submit', events.onDeleteWords)
   $('#update-word').on('submit', events.onUpdateWord)
   $('#print-storeList').on('submit', events.printStoreList)

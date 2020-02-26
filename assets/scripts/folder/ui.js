@@ -14,7 +14,7 @@ const onSignUpFailure = function (data) {
 const onSignInSuccess = function (data) {
   store.user = data.user
   store.authMenuShow = true
-
+  store.printShow = true
   $('#sign-up').trigger('reset')
   $('#sign-in').trigger('reset')
 
@@ -54,6 +54,7 @@ const onSignOutSuccess = function (data) {
   $('#sign-in').show()
   $('#sign-up').show()
 
+  $('#incorrect-guesses').hide()
   $('#change-password').hide()
   $('#sign-out').hide()
   $('#create-word').hide()
@@ -73,6 +74,7 @@ const onSignOutSuccess = function (data) {
   $('#auth-menu').hide()
 
   $('#content').html('')
+  $('#game-message').html('')
 }
 
 const onSignOutFailure = function (data) {
@@ -100,6 +102,7 @@ const onGetPrintSuccess = function (data) {
   const printWords = showWords({words: data.words})
   $('#content').html(printWords)
   store.wordsList = data.words
+  $('#hide-words').show()
 }
 
 const onGetPrintFailure = function (data) {
@@ -107,7 +110,7 @@ const onGetPrintFailure = function (data) {
 }
 
 const onGetWordsSuccess = function (data) {
-  console.log('running after api call')
+  // console.log('running after api call')
   store.wordsList = data.words
 }
 
@@ -132,15 +135,15 @@ const onUpdateWordFailure = function (data) {
 }
 
 const onStartGameSuccess = function (data) {
-  // console.log(data)
+  // // console.log(data)
   store.wordsList = data.words
   store.gameOver = false
-  // console.log(store.wordsList)
+  // // console.log(store.wordsList)
   let num = Math.random() * (store.wordsList.length - 1)
   num = Math.floor(num)
-  // console.log(num)
+  // // console.log(num)
   store.randGameWord = data.words[num].text
-  console.log(store.randGameWord)
+  // console.log(store.randGameWord)
   store.gameWordArray = []
   let underScoreLetterString = ''
   let realLetterString = ''
@@ -150,11 +153,11 @@ const onStartGameSuccess = function (data) {
       realLetterString = realLetterString + ' ' + store.randGameWord.charAt(i) + ' '
 
       store.gameWordArray.push(store.randGameWord.charAt(i))
-      // console.log(underScoreLetterString + ' ' + ' letter')
+      // // console.log(underScoreLetterString + ' ' + ' letter')
     } else {
       underScoreLetterString = underScoreLetterString + '-'
       realLetterString = realLetterString + '-'
-       // console.log(underScoreLetterString + ' ' + ' space')
+       // // console.log(underScoreLetterString + ' ' + ' space')
     }
   }
   store.correctGuessArray = []

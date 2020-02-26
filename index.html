@@ -31,9 +31,10 @@
          <input name="credentials[password]" type="password" placeholder="an example password">
          <input type='submit' value='Sign in!'>
     </form>
+<div class='auth-button'>
+  <button id='auth-button' type='button'>Menu</button>
 
-<button id='auth-button' type='button'>Menu</button>
-  <div id='auth-menu'>
+  <div id='auth-menu' class='auth-menu'>
       <form id='change-password'>
           <input name="passwords[old]" type="password" placeholder="Old password">
           <input name="passwords[new]" type="password" placeholder="New password">
@@ -46,13 +47,14 @@
     </form>
 
   </div>
+</div>
 
 
 
   <form id='start-game'>
       <input type='submit' value='Start Game'>
   </form>
-<div id='word-menu'>
+<div id='word-menu' class='word-menu'>
 
     <form id='create-word'>
         <input name="text" type="string" placeholder="Word">
@@ -73,23 +75,45 @@
     </form>
 
      <form id='print-words'>
-         <input type='submit' value='Print words'>
+         <input type='submit' value='Get words'>
     </form>
 
-    <form id='print-storeList'>
+    <div class='show-hide-print'>
+      <form id='hide-words'>
+          <input type='submit' value='Hide words'>
+     </form>
+  </div>
+
+    <!-- <form id='print-storeList'>
         <input type='submit' value='Print storelist'>
-    </form>
+    </form> -->
 
+    <div class='board'>
+      <div id='letter-board' class=' board'>
+      </div>
 
-
-    <div id='letter-board'>
+      <form id='guess-form' class='board'>
+          <input name='guess' type='string' placeholder='Single letters only'>
+          <input type='submit' value='Guess a letter'>
+      </form>
     </div>
 
-    <form id='guess-form'>
-      <input name='guess' type='string' placeholder='Single letters only'>
-      <input type='submit' value='Guess a letter'>
-    </form>
 </div>
+
+
+
+
+    <div id='incorrect-guesses' class='incorrect'>Incorrect Guesses:
+      <div id='incorrect-board'>
+      </div>
+    </div>
+
+
+
+
+
+
+
 
     </body>
 </html>

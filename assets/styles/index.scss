@@ -8,3 +8,29 @@
   padding: 0px;
   margin: -1px;
 }
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+
+}
+
+// .auth-menu {
+//   display: flex;
+//   align-self: flex-end;
+//   justify-content: flex-end;
+//   padding: 0 50px 0 0;
+// }
+
+.auth-button {
+  display: flex;
+  align-items: flex-end;
+}
+
+// .word-menu {
+//   display: flex;
+// }
+// .incorrect {
+//   display: flex;
+// }

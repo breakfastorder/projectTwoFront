@@ -3,6 +3,10 @@ const api = require('./api')
 const ui = require('./ui')
 const store = require('./../store')
 
+const addHandlers = () => {
+  $('.content').on('click', onDeleteWords)
+}
+
 const onSignUp = function (event) {
   event.preventDefault()
   const form = event.target
@@ -31,7 +35,7 @@ const onChangePassword = function (event) {
   event.preventDefault()
   const form = event.target
   const data = getFormFields(form)
-  console.log(data)
+  // console.log(data)
   api.changePassword(data)
     .then(ui.onChangePasswordSuccess)
     .catch(ui.onChangePasswordFailure)
@@ -51,7 +55,7 @@ const onCreateWord = function (event) {
   event.preventDefault()
   const form = event.target
   const data = getFormFields(form)
-  console.log(data)
+  // console.log(data)
   data.text = data.text.toLowerCase()
   const word = {
     'word': {
@@ -74,9 +78,16 @@ const onGetWords = function () {
 
 const onPrintWords = function () {
   event.preventDefault()
+  // // console.log(store.user.token)
   api.getWords()
     .then(ui.onGetPrintSuccess)
     .catch(ui.onGetPrintFailure)
+}
+
+const onDeletePrintWords = function () {
+  event.preventDefault()
+  $('#content').html('')
+  $('#hide-words').hide()
 }
 
 const onDeleteWords = function (data) {
@@ -84,6 +95,7 @@ const onDeleteWords = function (data) {
   event.preventDefault()
   const form = event.target
   const formData = getFormFields(form)
+  formData.text = formData.text.toLowerCase()
   api.getWords()
     .then(function (response) {
       const a = response.words.find(word => word.text.includes(formData.text)).id
@@ -91,17 +103,19 @@ const onDeleteWords = function (data) {
         .then(ui.onDeleteWordsSuccess)
         .catch(ui.onDeleteWordsFailure)
     })
-    .catch($('#auth-message').html('Word cannot be found, please try again'))
+  $('#delete-word').trigger('reset')
+  onPrintWords()
 }
 
 const onUpdateWord = function (data) {
   event.preventDefault()
   const form = event.target
   const formData = getFormFields(form)
+  formData.oldText = formData.oldText.toLowerCase()
   api.getWords()
     .then(function (response) {
       const index = response.words.find(word => word.text.includes(formData.oldText)).id
-      console.log(index)
+      // console.log(index)
       formData.text = formData.text.toLowerCase()
       const word = {
         'word': {
@@ -114,7 +128,7 @@ const onUpdateWord = function (data) {
         .then(ui.onUpdateWordSuccess)
         .catch(ui.onUpdateWordFailure)
     })
-    .catch($('#auth-message').html('Word cannot be found, please try again'))
+  $('#update-word').trigger('reset')
 }
 
 const onStartGame = function () {
@@ -153,21 +167,30 @@ const checkGuess = function (data) {
 
         store.gameWordArray = store.gameWordArray.filter(word => word !== formData.guess)
       }
-      console.log('word array')
-      console.log(store.gameWordArray)
-      console.log('correct array')
-      console.log(store.correctGuessArray)
-      console.log('incorrect array')
-      console.log(store.incorrectGuessArray)
+      // console.log('word array')
+      // console.log(store.gameWordArray)
+      // console.log('correct array')
+      // console.log(store.correctGuessArray)
+      // console.log('incorrect array')
+      // console.log(store.incorrectGuessArray)
 
+      $('#incorrect-guesses').show()
+      $('#incorrect-board').html(store.incorrectGuessArray)
       if (store.gameWordArray.length === 0) { // && store.correctGuessArray.length === wordLength
         store.gameOver = true
         store.userWon = 1
+        $('#incorrect-guesses').hide()
       } else if (store.incorrectGuessArray.length === 6) {
         store.gameOver = true
         store.userWon = -1
+
+        $('#incorrect-guesses').hide()
       }
-      $('#letter-board').html(store.underScoreArray)
+      if (store.userWon === -1) {
+        $('#letter-board').html(store.randGameWord)
+      } else {
+        $('#letter-board').html(store.underScoreArray)
+      }
       $('#guess-form').trigger('reset')
     }
   } else {
@@ -185,10 +208,11 @@ const checkGuess = function (data) {
 
 const printStoreList = function () {
   event.preventDefault()
-  console.log(store.wordsList)
+  // console.log(store.wordsList)
 }
 
 module.exports = {
+  addHandlers,
   onSignUp,
   onSignIn,
   onSignOut,
@@ -201,5 +225,6 @@ module.exports = {
   onUpdateWord,
   onStartGame,
   printStoreList,
-  checkGuess
+  checkGuess,
+  onDeletePrintWords
 }
