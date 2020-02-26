@@ -199,6 +199,8 @@ const checkGuess = function (data) {
       formData.guess = formData.guess.toLowerCase()
       if (store.gameWordArray.includes(formData.guess) === false && store.incorrectGuessArray.includes(formData.guess) === false && store.correctGuessArray.includes(formData.guess) === false) {
         store.incorrectGuessArray.push(formData.guess)
+        const string = 'Incorrect guesses:('
+        $('#incorrect-guesses').text(string + store.incorrectGuessArray.length + '/6)')
         // add relevant strike
       } else {
         if (store.correctGuessArray.includes(formData.guess) === false) {
@@ -230,6 +232,7 @@ const checkGuess = function (data) {
         store.userWon = -1
 
         $('#incorrect-guesses').hide()
+        $('#incorrect-board').hide()
       }
       if (store.userWon === -1) {
         $('#letter-board').html(store.randGameWord)
