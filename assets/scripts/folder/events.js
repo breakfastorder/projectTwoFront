@@ -214,12 +214,6 @@ const checkGuess = function (data) {
 
         store.gameWordArray = store.gameWordArray.filter(word => word !== formData.guess)
       }
-      // console.log('word array')
-      // console.log(store.gameWordArray)
-      // console.log('correct array')
-      // console.log(store.correctGuessArray)
-      // console.log('incorrect array')
-      // console.log(store.incorrectGuessArray)
 
       $('#incorrect-guesses').show()
       $('#incorrect-board').html(store.incorrectGuessArray)
