@@ -103,6 +103,7 @@ const onGetPrintSuccess = function (data) {
   $('#content').html(printWords)
   store.wordsList = data.words
   $('#hide-words').show()
+  $('#print-words').hide()
 }
 
 const onGetPrintFailure = function (data) {
@@ -110,7 +111,6 @@ const onGetPrintFailure = function (data) {
 }
 
 const onGetWordsSuccess = function (data) {
-  // console.log('running after api call')
   store.wordsList = data.words
 }
 

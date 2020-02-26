@@ -4,7 +4,8 @@ const ui = require('./ui')
 const store = require('./../store')
 
 const addHandlers = () => {
-  $('.content').on('click', onDeleteWords)
+  $('#content').on('click', onDeleteHandleWords)
+  $('#content').on('submit', onUpdateHandleWords)
 }
 
 const onSignUp = function (event) {
@@ -66,6 +67,7 @@ const onCreateWord = function (event) {
   }
   api.createWord(word)
     .then(ui.onCreateWordSuccess)
+    .then(onPrintWordsUpdate)
     .catch(ui.onCreateWordFailure)
 }
 
@@ -84,10 +86,19 @@ const onPrintWords = function () {
     .catch(ui.onGetPrintFailure)
 }
 
+const onPrintWordsUpdate = function () {
+  // event.preventDefault()
+  // // console.log(store.user.token)
+  api.getWords()
+    .then(ui.onGetPrintSuccess)
+    .catch(ui.onGetPrintFailure)
+}
+
 const onDeletePrintWords = function () {
   event.preventDefault()
   $('#content').html('')
   $('#hide-words').hide()
+  $('#print-words').show()
 }
 
 const onDeleteWords = function (data) {
@@ -95,16 +106,27 @@ const onDeleteWords = function (data) {
   event.preventDefault()
   const form = event.target
   const formData = getFormFields(form)
+  // console.log('form data below')
+  // console.log(formData)
   formData.text = formData.text.toLowerCase()
   api.getWords()
     .then(function (response) {
       const a = response.words.find(word => word.text.includes(formData.text)).id
       api.deleteWords(a)
         .then(ui.onDeleteWordsSuccess)
+        .then(onPrintWordsUpdate)
         .catch(ui.onDeleteWordsFailure)
     })
   $('#delete-word').trigger('reset')
   onPrintWords()
+}
+
+const onDeleteHandleWords = function () {
+  if (event.target.getAttribute('class') === 'btn btn-danger') {
+    api.deleteWords(event.target.getAttribute('word-id'))
+      .then(onPrintWordsUpdate)
+      .catch(ui.onDeleteWordsFailure)
+  }
 }
 
 const onUpdateWord = function (data) {
@@ -112,6 +134,7 @@ const onUpdateWord = function (data) {
   const form = event.target
   const formData = getFormFields(form)
   formData.oldText = formData.oldText.toLowerCase()
+  // console.log(formData)
   api.getWords()
     .then(function (response) {
       const index = response.words.find(word => word.text.includes(formData.oldText)).id
@@ -129,6 +152,28 @@ const onUpdateWord = function (data) {
         .catch(ui.onUpdateWordFailure)
     })
   $('#update-word').trigger('reset')
+}
+
+const onUpdateHandleWords = function (data) {
+  event.preventDefault()
+  if (event.target.getAttribute('class') === 'handle-form') {
+    const form = event.target
+    const formData = getFormFields(form)
+    const word = {
+      'word': {
+        'text': formData.text,
+        'times_used': 0,
+        'difficulty': formData.difficulty
+      }
+    }
+    const num = event.target.getAttribute('update-word')
+    // console.log(num + ' num')
+    api.updateWord(word, num)
+      .then(ui.onUpdateWordSuccess)
+      .then(onPrintWordsUpdate)
+      .catch(ui.onUpdateWordFailure)
+    $('#update-word').trigger('reset')
+  }
 }
 
 const onStartGame = function () {
@@ -226,5 +271,7 @@ module.exports = {
   onStartGame,
   printStoreList,
   checkGuess,
-  onDeletePrintWords
+  onDeletePrintWords,
+  onDeleteHandleWords,
+  onUpdateHandleWords
 }

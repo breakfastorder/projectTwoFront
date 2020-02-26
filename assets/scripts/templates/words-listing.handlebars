@@ -13,7 +13,17 @@
         No difficulty provided.
       {{/if}}
     </p>
-    <!-- <button id='{{book.id}}' class="btn btn-danger">Delete Me!</button> -->
+    <div class='handlebars-menu'>
+          <button word-id='{{word.id}}' class="btn btn-danger">Delete Me!</button>
+        <div class='handlebar-update'>
+
+          <form class='handle-form' update-word={{word.id}}>
+              <input name="text" type="string" placeholder="New word">
+              <input name="difficulty" type="string" placeholder="difficulty">
+              <input type='submit' placeholder='upate Word'>
+          </form>
+        </div>
+    </div>
   </section>
 
 {{/each}}
