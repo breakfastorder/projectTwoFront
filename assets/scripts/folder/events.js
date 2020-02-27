@@ -201,7 +201,6 @@ const checkGuess = function (data) {
         store.incorrectGuessArray.push(formData.guess)
         const string = 'Incorrect guesses:('
         $('#incorrect-guesses').text(string + store.incorrectGuessArray.length + '/6)')
-        // add relevant strike
       } else {
         if (store.correctGuessArray.includes(formData.guess) === false) {
           store.correctGuessArray.push(formData.guess)
