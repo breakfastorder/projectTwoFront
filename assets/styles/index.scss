@@ -12,14 +12,16 @@
 
 
 .board {
-  display: flex;
+  display: block;
   align-self: center;
+  flex-direction: column;
 }
 
 .auth-button {
   display: flex;
   align-self: flex-end;
 }
+
 
 .handlebars-menu {
   padding: 0 0 30px 0;
