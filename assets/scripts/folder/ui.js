@@ -50,6 +50,10 @@ const onSignOutSuccess = function (data) {
   $('#auth-message').html('User has been signed out')
 
   $('#change-password').trigger('reset')
+  $('#guess-form').trigger('reset')
+  $('#incorrect-guesses').text('')
+  $('#incorrect-board').html('')
+
 
   $('#sign-in').show()
   $('#sign-up').show()
@@ -140,6 +144,9 @@ const onUpdateWordFailure = function (data) {
 
 const onStartGameSuccess = function (data) {
   // // console.log(data)
+  $('#guess-form').trigger('reset')
+  $('#incorrect-guesses').text('')
+  $('#incorrect-board').html('')
   store.wordsList = data.words
   store.gameOver = false
   // // console.log(store.wordsList)
