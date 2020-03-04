@@ -1,4 +1,3 @@
-README
 **#Description**
 Play hangman online! Create new words and log a database filled with your
 favorite words! With so many words to choose from, the games are endless!
